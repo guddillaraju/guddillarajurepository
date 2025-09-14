@@ -10,7 +10,7 @@ description = 'Demo project for Spring Boot'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -36,4 +36,11 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+project.gradle.taskGraph.whenReady{
+	if(it.allTasks.any {it.name=="bootbuildinfo"}){
+		processResources{
+			exclude("META-INF/build-info.properties")
+		}
+	}
 }
